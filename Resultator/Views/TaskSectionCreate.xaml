@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="Resultator.Views.TaskSectionCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Resultator.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" 
+                    HorizontalAlignment="Stretch" Padding="10,20,20,20" 
+                    Margin="0"
+                    Name="ItemButtons" Background="#FFEFEFEF">
+            <TextBox Name="ItemName" Margin="0,0,0,10"/>
+            <TextBox Name="ItemDescription" Margin="0,0,0,10"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Button Name="SaveItemButton" 
+                        Content="Create" 
+                        FontSize="16" 
+                        Click="SaveItemButton_Click" Margin="0,0,5,0"/>
+                <Button Name="DeleteItemButton" 
+                        Content="Delete" 
+                        FontSize="16" 
+                        Click="DeleteItemButton_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ProgressRing Name="saveProgress" Width="25" Height="25" IsActive="True" Visibility="Collapsed"/>
+                <TextBlock Name="SaveResult" Text=""/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

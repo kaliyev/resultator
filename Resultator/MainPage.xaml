@@ -1,0 +1,130 @@
+﻿<Page
+    x:Class="Resultator.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Resultator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:Resultator.Model"
+    mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <CommandBar HorizontalAlignment="Left">
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarButton Icon="Add" Label="Add Task" Name="AddTaskBtn" Click="AddTaskBtn_Click"/>
+            <AppBarButton x:Name="SettingAppBtn" HorizontalAlignment="Stretch" Icon="Setting" Label="appbarbutton" VerticalAlignment="Stretch" d:LayoutOverrides="Height"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="37"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveApp">
+                <VisualState x:Name="PC">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1024"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TaskSplitView.(SplitView.IsPaneOpen)" Value="True"/>
+                        <Setter Target="TaskSplitView.(SplitView.DisplayMode)" Value="CompactInline"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Tablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TaskSplitView.(SplitView.IsPaneOpen)" Value="False"/>
+                        <Setter Target="TaskSplitView.(SplitView.DisplayMode)" Value="CompactOverlay"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Phone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="320"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TaskSplitView.(SplitView.IsPaneOpen)" Value="False"/>
+                        <Setter Target="TaskSplitView.(SplitView.DisplayMode)" Value="Overlay"/>
+                        <Setter Target="textBlock.(FrameworkElement.HorizontalAlignment)" Value="Left"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <RelativePanel Grid.Row="0" Height="36">
+            <Button Name="HamburgerButton" 
+                    FontFamily="Segoe MDL2 Assets" 
+                    Content="&#xE700;" 
+                    FontSize="21.333" 
+                    Click="HamburgerButton_Click"
+                    RelativePanel.AlignLeftWithPanel="True" Background="{x:Null}" HorizontalAlignment="Center" FontWeight="Bold" Height="36" Margin="0,0,0.2,-2.6"/>
+            <TextBlock x:Name="textBlock" Text="RESULTATOR" RelativePanel.RightOf="HamburgerButton" HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Margin="10,0,0,0" 
+                       FontSize="18.667"
+                       RelativePanel.AlignVerticalCenterWith="HamburgerButton"
+                       />
+        </RelativePanel>
+
+        <SplitView Name="TaskSplitView" 
+                   OpenPaneLength="200" 
+                   CompactPaneLength="44" 
+                   Width="Auto" IsPaneOpen="True"
+                   Grid.Row="1">
+            <SplitView.Pane>
+                <StackPanel>
+                    <ListBox SelectionMode="Single" 
+                         Name="TaskerListBox" 
+                         SelectionChanged="TaskerListBox_SelectionChanged">
+                        <ListBoxItem Name="TaskSectionAddButton">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock 
+                                            Name="SectionsBtn"
+                                            FontFamily="Segoe MDL2 Assets" 
+                                            Text="&#xE179;" 
+                                            FontSize="21.333"
+                                            Tapped="SectionsBtn_Tapped"/>
+                                    <TextBlock Text="All" 
+                                               FontSize="18.667" 
+                                               Margin="20,0,0,0" Foreground="Black"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <TextBlock Text="Add section" 
+                                           Name="AddSectionBtn"
+                                           FontSize="16" 
+                                           Margin="40,0,0,0"
+                                           Tapped="AddSectionBtn_Tapped"/>
+                        </ListBoxItem>
+                        <ListView x:Name="taskTypeListView" 
+        	                        ItemsSource="{x:Bind taskManager.sections}" 
+        	                        ItemClick="taskTypeListView_ItemClick"
+        	                        IsItemClickEnabled="True"
+        	                        HorizontalAlignment="Left" 
+        	                        Margin="50,0,0,0" 
+        	                        VerticalAlignment="Top" 
+        	                        Width="125"
+                                    RelativePanel.AlignLeftWithPanel="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="data:TaskSection">
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Text="{x:Bind name}" FontSize="16"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ListBox>
+                    
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Frame Name="ContentFrame"/>
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</Page>

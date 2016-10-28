@@ -18,6 +18,7 @@ using Resultator.Model;
 
 namespace Resultator
 {
+	/// GitHub update
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
